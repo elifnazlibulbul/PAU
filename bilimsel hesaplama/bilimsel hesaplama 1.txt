@@ -1,0 +1,90 @@
+clc sayfayı temizler
+who-> o ana kadarki değişkenlerini gösterir
+whos-> değişkenlerin adlarını boyutlarını türlerini ve kapladıkları alanı gösterir
+int16(53)-> 16 bitlik int tipinde değer
+tip belirtmezsen double atar
+clear a b -> a ve b yi siler
+clear -> tüm değerleri siler
+load(degiskeninismi.mat) -> kaydedilmiş değişkeni çağırır
+v = [ 1 2 3 4 5 ] -> 1x5 lik satır vektörü oluşturur
+araya boşluk da bırakabilirsin virgül de koyabilirsin
+w = [ 1; 2; 3; 4; 5 ] -> 5x1 lik sütun vektörü oluşturur
+f = [ 6 7 8 9 10 11 ] 
+(f') f vektörünün transpozu olur.
+satırsa -> sütun
+sütunsa -> satır
+1:10 -> 1den 10a kadar olan sayılar
+1:2:10 -> 1 den 10a kadaar 2şer artarak giden sayılar
+ortadaki ":" işaretine kolon oparetörü denir -> for döngüsü yerine kullanılır
+linspace(1,5,400) 1 le 5 arasına 400 tane eşit aralıklarla artan değer koyar
+“rand()”: Uniform(düzgün, tekdüze) dağılmış sayı üretmek için 
+“randi()”: Uniform(düzgün, tekdüze) dağılmış tam sayı üretmek için 
+“randn()”: Normal dağılmış sayı üretmek için
+ones(5,1) : bütün değerlere 1 atar
+zeros(5,1) : bütün değerlere 0 atar
+matlabta normalde compile'a gerek kalmadan direkt çıktıyı bastırır
+eğer satır sonuna ; koyarsan çıktıyı kaydeder ama ekrana bastırmaz
+matlab'ta indeks 0 dan değil 1 den başlar
+f = [1 2 3 4 5]    f(1) = 1   f(end)=5 (sonuncu eleman)    f(end-1)=4
+f(1:2:5) = 1 3 5 1'den 5'e kadar 2'şer artan sayılar
+f(3:end) = 3 4 5
+lenght(f) = 5
+size(f) = 1x5
+3 + f = 4 5 6 7 8
+3 * f = 3 6 9 12 15
+x = 2.33
+
+2*x + cos(x/3)^2 - sqrt(x) * exp(x^2) = -342,7031
+x = [2.33 1.45 3.45]
+2*x + cos(x/3).^2 - sqrt(x) .* exp(x.^2) -> 
+nokta koyduğumuzda her eleman için bu işlemi yapar
+
+matris oluşturma;
+M = [1 2 3 4 ; 5 6 7 8 ; 9 10 11 12]
+1 2 3 4
+5 6 7 8
+9 10 11 12
+size(M)= 4 4
+
+A=rand(3,4) rastgele değerli 3x4 lük matris
+size(A)= 3x4
+B= A' -> B Anın transpozu  size(B)= 4x3
+ones(4,5) -> tüm elemanları 1 olan 4x5 matris
+
+a = [ 1 2 3 ]
+A= diag(a)
+1 0 0
+0 2 0  -> köşegenler a, diğer elemanları 0 olan matris
+0 0 3   
+diag(A) = 1 2 3 
+M= (1,1) = 1
+M= (2,3) = 7
+
+reshape= (M, [6 2])
+1    3
+5    7
+9    11
+2    4
+6    8
+10   12
+
+pi = 3.1416
+format long
+pi = 3,141592653589793
+format short (eski haline getirdik)
+
+Matrisi skalerle çarpmak tüm elemanlarını çarpmak anlamına geliyor.
+Lineer cebirdeki matris çarpma kuralları geçerli.
+
+M = rand(3,4)
+N = rand(3,4)
+M*N = tanımlı değil
+M.*N = birinci matrisin birinci elemanıyla ikinci matrisin birinci elemanı çarpılır.
+Nokta koyduğumuz için eleman eleman çarpma yapılır.
+
+M= rand(4,4)
+det(M) = matrisin determinantını verir
+inv(M) = matrisin tersini verir
+[V, D] = eig(M)  eig-> matrisin öz değerlerini verir
+V -> öz vektörler
+D -> matrisin köşegenlerinde öz değerler bulunur

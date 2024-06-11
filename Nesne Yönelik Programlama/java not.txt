@@ -1,0 +1,9 @@
+substring fonksiyonunda başlangıç index dahil bitiş dahil değildir.
+String mesaj = "bugün";
+String yeniMesaj = mesaj.substring(0,2);
+output => bu
+b=0 u=1 g=2
+
+metoda çoğul değişken atamak istiyorsak üç nokta konulur.
+public static int topla(int... sayilar){}
+

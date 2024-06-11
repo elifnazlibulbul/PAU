@@ -1,0 +1,23 @@
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+
+int main(){
+
+pid_t pid1,pid2;
+int status;
+pid2 = fork();
+printf("i am running %d, my parent is %d pid2 is %d \n",getpid(),getppid(),pid2);
+
+if (pid2>0)
+{
+    pid1 = wait(&status);
+    //if (WIFEXITED(status))
+    
+    printf("child %d exited \n", pid1);
+}
+
+}

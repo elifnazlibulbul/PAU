@@ -1,0 +1,93 @@
+import random
+import queue
+import threading
+import time
+
+class Process:
+    def __init__(self, burst_time):
+        self.burst_time = burst_time
+        self.remaining_time = burst_time
+        self.waiting_time = 0
+        self.turnaround_time = 0
+
+class CPU:
+    def __init__(self):
+        self.current_process = None
+
+class ProcessScheduler(threading.Thread):
+    def __init__(self, cpu, queue, quantum_time):
+        super(ProcessScheduler, self).__init__()
+        self.cpu = cpu
+        self.queue = queue
+        self.quantum_time = quantum_time
+
+    def run(self):
+        while not self.queue.empty():
+            process = self.queue.get()
+            self.execute_process(process)
+            time.sleep(0.1)
+
+    def execute_process(self, process):
+        print(f"Executing process with burst time {process.burst_time}")
+        for _ in range(min(self.quantum_time, process.remaining_time)):
+            time.sleep(0.1)
+            process.remaining_time -= 1
+            if self.cpu.current_process is None:
+                self.cpu.current_process = process
+                process.waiting_time += process.turnaround_time
+        process.turnaround_time += process.burst_time
+
+        if process.remaining_time > 0:
+            self.queue.put(process)
+        else:
+            print(f"Process with burst time {process.burst_time} completed")
+
+class MultiLevelQueue:
+    def __init__(self):
+        self.queues = [queue.Queue() for _ in range(3)]
+
+    def enqueue(self, process, level):
+        self.queues[level].put(process)
+
+    def get_queue(self, level):
+        return self.queues[level]
+
+def generate_processes(num_processes):
+    return [Process(random.randint(1, 20)) for _ in range(num_processes)]
+
+def calculate_average_times(processes):
+    total_waiting_time = sum(process.waiting_time for process in processes)
+    total_turnaround_time = sum(process.turnaround_time for process in processes)
+    average_waiting_time = total_waiting_time / len(processes)
+    average_turnaround_time = total_turnaround_time / len(processes)
+    return average_waiting_time, average_turnaround_time
+
+def main():
+    cpu = CPU()
+    multi_level_queue = MultiLevelQueue()
+
+    processes = generate_processes(3000)
+
+    for process in processes:
+        # Assign processes to queues based on priority
+        if process.burst_time < 8:
+            multi_level_queue.enqueue(process, 0)
+        elif process.burst_time < 16:
+            multi_level_queue.enqueue(process, 1)
+        else:
+            multi_level_queue.enqueue(process, 2)
+
+    schedulers = [ProcessScheduler(cpu, multi_level_queue.get_queue(i), quantum_time=(8, 16, float('inf'))[i]) for i in range(3)]
+
+    for scheduler in schedulers:
+        scheduler.start()
+
+    for scheduler in schedulers:
+        scheduler.join()
+
+    average_waiting_time, average_turnaround_time = calculate_average_times(processes)
+    print(f"Average Waiting Time: {average_waiting_time}")
+    print(f"Average Turnaround Time: {average_turnaround_time}")
+
+if __name__ == "__main__":
+    main()
